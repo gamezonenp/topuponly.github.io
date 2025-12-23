@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Gamezone NP – Free Fire Top-Up</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root{
+  --primary:#6a00ff;
+  --secondary:#00c6ff;
+  --accent:#ffd54f;
+  --bg:#050716;
+  --card:rgba(255,255,255,.08);
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:'Segoe UI',system-ui,Arial;
+  background:
+    radial-gradient(circle at 20% 20%, #1a1f4b, transparent 40%),
+    radial-gradient(circle at 80% 0%, #0b3c5d, transparent 35%),
+    var(--bg);
+  color:#fff;
+}
+
+/* HEADER */
+header{
+  text-align:center;
+  padding:30px 15px;
+  background:linear-gradient(90deg,var(--primary),var(--secondary));
+  box-shadow:0 10px 40px rgba(0,0,0,.4);
+}
+header h1{
+  margin:0;
+  font-size:32px;
+  letter-spacing:1px;
+}
+header p{
+  margin:8px 0 0;
+  opacity:.9;
+}
+
+/* UID BOX */
+.uid-box{
+  max-width:420px;
+  margin:30px auto;
+  padding:22px;
+  background:var(--card);
+  border-radius:16px;
+  backdrop-filter:blur(14px);
+  box-shadow:0 20px 40px rgba(0,0,0,.35);
+}
+.uid-box h3{
+  margin:0 0 12px;
+}
+.uid-box input{
+  width:100%;
+  padding:14px;
+  border-radius:10px;
+  border:none;
+  outline:none;
+  font-size:16px;
+}
+.uid-box small{
+  display:block;
+  margin-top:8px;
+  color:#ccc;
+}
+
+/* GRID */
+.grid{
+  max-width:1200px;
+  margin:50px auto;
+  padding:0 15px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:22px;
+}
+
+/* CARD */
+.card{
+  background:linear-gradient(160deg,#1a2157,#0e1238);
+  border-radius:18px;
+  padding:22px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.06),
+    0 20px 40px rgba(0,0,0,.45);
+  transition:.3s ease;
+}
+.card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(120deg,transparent,rgba(255,255,255,.15),transparent);
+  opacity:0;
+  transition:.3s;
+}
+.card:hover{
+  transform:translateY(-8px) scale(1.02);
+}
+.card:hover::before{
+  opacity:1;
+}
+
+.card h3{
+  margin:0;
+  font-size:18px;
+}
+.price{
+  margin:12px 0;
+  font-size:20px;
+  font-weight:700;
+  color:var(--accent);
+}
+
+.card button{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  background:linear-gradient(90deg,#25d366,#1ebc5b);
+  font-weight:700;
+  font-size:15px;
+  cursor:pointer;
+  transition:.25s;
+}
+.card button:hover{
+  filter:brightness(1.1);
+}
+
+/* PAYMENT */
+.payment{
+  text-align:center;
+  margin:70px 0 40px;
+}
+.payment h3{
+  margin-bottom:20px;
+}
+.payment img{
+  width:180px;
+  margin:10px;
+  border-radius:16px;
+  box-shadow:0 15px 30px rgba(0,0,0,.4);
+}
+
+/* FOOTER */
+footer{
+  text-align:center;
+  padding:20px;
+  font-size:14px;
+  color:#aaa;
+  border-top:1px solid rgba(255,255,255,.08);
+}
+
+/* MOBILE */
+@media(max-width:480px){
+  header h1{font-size:26px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🔥 Gamezone NP</h1>
+  <p>Free Fire Diamond Top-Up • Fast & Trusted</p>
+</header>
+
+<div class="uid-box">
+  <h3>🎮 Enter Free Fire UID</h3>
+  <input id="uid" placeholder="Enter your UID">
+  <small>UID is required before ordering</small>
+</div>
+
+<div class="grid">
+
+<div class="card"><h3>💎 50 Diamonds</h3><div class="price">Rs 65</div><button onclick="order('50 Diamonds',65)">Order</button></div>
+<div class="card"><h3>💎 115 Diamonds</h3><div class="price">Rs 100</div><button onclick="order('115 Diamonds',100)">Order</button></div>
+<div class="card"><h3>💎 240 Diamonds</h3><div class="price">Rs 190</div><button onclick="order('240 Diamonds',190)">Order</button></div>
+<div class="card"><h3>💎 355 Diamonds</h3><div class="price">Rs 280</div><button onclick="order('355 Diamonds',280)">Order</button></div>
+<div class="card"><h3>💎 480 Diamonds</h3><div class="price">Rs 380</div><button onclick="order('480 Diamonds',380)">Order</button></div>
+<div class="card"><h3>💎 610 Diamonds</h3><div class="price">Rs 500</div><button onclick="order('610 Diamonds',500)">Order</button></div>
+<div class="card"><h3>💎 725 Diamonds</h3><div class="price">Rs 580</div><button onclick="order('725 Diamonds',580)">Order</button></div>
+<div class="card"><h3>💎 960 Diamonds</h3><div class="price">Rs 670</div><button onclick="order('960 Diamonds',670)">Order</button></div>
+<div class="card"><h3>💎 965 Diamonds</h3><div class="price">Rs 760</div><button onclick="order('965 Diamonds',760)">Order</button></div>
+<div class="card"><h3>💎 1090 Diamonds</h3><div class="price">Rs 850</div><button onclick="order('1090 Diamonds',850)">Order</button></div>
+<div class="card"><h3>💎 1240 Diamonds</h3><div class="price">Rs 940</div><button onclick="order('1240 Diamonds',940)">Order</button></div>
+<div class="card"><h3>💎 1480 Diamonds</h3><div class="price">Rs 1120</div><button onclick="order('1480 Diamonds',1120)">Order</button></div>
+<div class="card"><h3>💎 1595 Diamonds</h3><div class="price">Rs 1280</div><button onclick="order('1595 Diamonds',1280)">Order</button></div>
+<div class="card"><h3>💎 1720 Diamonds</h3><div class="price">Rs 1330</div><button onclick="order('1720 Diamonds',1330)">Order</button></div>
+<div class="card"><h3>💎 1880 Diamonds</h3><div class="price">Rs 1550</div><button onclick="order('1880 Diamonds',1550)">Order</button></div>
+<div class="card"><h3>💎 2090 Diamonds</h3><div class="price">Rs 1680</div><button onclick="order('2090 Diamonds',1680)">Order</button></div>
+<div class="card"><h3>💎 2530 Diamonds</h3><div class="price">Rs 2170</div><button onclick="order('2530 Diamonds',2170)">Order</button></div>
+<div class="card"><h3>💎 3770 Diamonds</h3><div class="price">Rs 2940</div><button onclick="order('3770 Diamonds',2940)">Order</button></div>
+<div class="card"><h3>💎 5650 Diamonds</h3><div class="price">Rs 3940</div><button onclick="order('5650 Diamonds',3940)">Order</button></div>
+<div class="card"><h3>💎 10120 Diamonds</h3><div class="price">Rs 7400</div><button onclick="order('10120 Diamonds',7400)">Order</button></div>
+
+<div class="card"><h3>⭐ Weekly Membership</h3><div class="price">Rs 230</div><button onclick="order('Weekly Membership',230)">Order</button></div>
+<div class="card"><h3>👑 Monthly Membership</h3><div class="price">Rs 980</div><button onclick="order('Monthly Membership',980)">Order</button></div>
+
+</div>
+
+<div class="payment">
+  <h3>Pay via eSewa / Khalti</h3>
+  <img src="esewa.jpg.png">
+  <img src="khalti.jpg.png">
+  <p>After payment, send screenshot on WhatsApp</p>
+</div>
+
+<footer>
+© 2025 Gamezone NP. All rights reserved.
+</footer>
+
+<script>
+function order(product, price){
+  const uid = document.getElementById("uid").value.trim();
+  if(!uid){
+    alert("Please enter your Free Fire UID first");
+    return;
+  }
+
+  const msg =
+`Free Fire Top-Up Order
+UID: ${uid}
+Package: ${product}
+Amount: Rs ${price}`;
+
+  window.open(
+    "https://wa.me/9707394367?text=" + encodeURIComponent(msg),
+    "_blank"
+  );
+}
+</script>
+
+</body>
+</html>
