@@ -52,9 +52,10 @@ input,textarea{width:100%;padding:8px;border-radius:8px;border:none;margin-botto
 <div id="adminPanel" class="admin-panel hidden">
   <h3>🔐 Admin Control</h3>
 
-  <input id="adminUser" placeholder="Admin ID">
-  <input id="adminPass" type="password" placeholder="Password">
-  <button onclick="login()">Login</button>
+ <input id="adminUser" placeholder="Admin ID">
+<input id="adminPass" type="password" placeholder="Password">
+<button onclick="login()">Login</button>
+<button onclick="logout()" style="background:#ff5252">Logout</button>
 
   <hr>
 
@@ -147,16 +148,7 @@ function unlockAdmin(){
 }
 
 // Ctrl + A opens login if locked
-document.addEventListener("keydown",e=>{
- if(e.ctrlKey && e.key==="A"){
-  if(DB.admin){
-    panel.classList.toggle("hidden");
-  }else{
-    panel.classList.remove("hidden");
-    alert("🔐 Admin Login Required");
-  }
- }
-});
+
 
 // Login
 function login(){
@@ -198,6 +190,38 @@ function clearNews(){
 if(DB.admin){
  panel.classList.remove("hidden");
 }
+  <script>
+// ================= ADMIN ACCESS =================
+const isAdminURL = location.hash === "#admin";
+const panel = document.getElementById("adminPanel");
+
+if (!isAdminURL) {
+  panel.classList.add("hidden");
+}
+
+// ================= LOGIN =================
+function login(){
+  if(adminUser.value === "admin" && adminPass.value === "naman@123"){
+    localStorage.setItem("adminLogged","true");
+    panel.classList.remove("hidden");
+    alert("✅ Admin logged in");
+  } else {
+    alert("❌ Wrong admin credentials");
+  }
+}
+
+// ================= AUTO LOGIN =================
+if (localStorage.getItem("adminLogged") === "true" && isAdminURL) {
+  panel.classList.remove("hidden");
+}
+
+// ================= LOGOUT =================
+function logout(){
+  localStorage.removeItem("adminLogged");
+  location.reload();
+}
+</script>
+
 
 </script>
 
