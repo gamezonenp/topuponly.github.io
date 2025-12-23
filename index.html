@@ -33,15 +33,8 @@ header{
   background:linear-gradient(90deg,var(--primary),var(--secondary));
   box-shadow:0 10px 40px rgba(0,0,0,.4);
 }
-header h1{
-  margin:0;
-  font-size:32px;
-  letter-spacing:1px;
-}
-header p{
-  margin:8px 0 0;
-  opacity:.9;
-}
+header h1{margin:0;font-size:32px}
+header p{margin:8px 0 0;opacity:.9}
 
 /* UID BOX */
 .uid-box{
@@ -53,22 +46,14 @@ header p{
   backdrop-filter:blur(14px);
   box-shadow:0 20px 40px rgba(0,0,0,.35);
 }
-.uid-box h3{
-  margin:0 0 12px;
-}
 .uid-box input{
   width:100%;
   padding:14px;
   border-radius:10px;
   border:none;
-  outline:none;
   font-size:16px;
 }
-.uid-box small{
-  display:block;
-  margin-top:8px;
-  color:#ccc;
-}
+.uid-box small{color:#ccc}
 
 /* GRID */
 .grid{
@@ -86,39 +71,16 @@ header p{
   border-radius:18px;
   padding:22px;
   text-align:center;
-  position:relative;
-  overflow:hidden;
-  box-shadow:
-    inset 0 0 0 1px rgba(255,255,255,.06),
-    0 20px 40px rgba(0,0,0,.45);
-  transition:.3s ease;
-}
-.card::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(120deg,transparent,rgba(255,255,255,.15),transparent);
-  opacity:0;
+  box-shadow:0 20px 40px rgba(0,0,0,.45);
   transition:.3s;
 }
-.card:hover{
-  transform:translateY(-8px) scale(1.02);
-}
-.card:hover::before{
-  opacity:1;
-}
-
-.card h3{
-  margin:0;
-  font-size:18px;
-}
+.card:hover{transform:translateY(-6px) scale(1.02)}
 .price{
   margin:12px 0;
   font-size:20px;
   font-weight:700;
   color:var(--accent);
 }
-
 .card button{
   width:100%;
   padding:12px;
@@ -126,12 +88,7 @@ header p{
   border-radius:10px;
   background:linear-gradient(90deg,#25d366,#1ebc5b);
   font-weight:700;
-  font-size:15px;
   cursor:pointer;
-  transition:.25s;
-}
-.card button:hover{
-  filter:brightness(1.1);
 }
 
 /* PAYMENT */
@@ -139,15 +96,41 @@ header p{
   text-align:center;
   margin:70px 0 40px;
 }
-.payment h3{
-  margin-bottom:20px;
-}
 .payment img{
   width:180px;
   margin:10px;
   border-radius:16px;
-  box-shadow:0 15px 30px rgba(0,0,0,.4);
 }
+
+/* ORDER HISTORY */
+.history{
+  max-width:900px;
+  margin:40px auto;
+  padding:25px;
+  background:rgba(255,255,255,.06);
+  border-radius:18px;
+  backdrop-filter:blur(12px);
+}
+.history h3{text-align:center;margin-top:0}
+.history-item{
+  background:rgba(0,0,0,.35);
+  padding:12px;
+  margin-bottom:10px;
+  border-radius:12px;
+  font-size:14px;
+}
+.history-item .price{color:var(--accent)}
+.clear-history{
+  width:100%;
+  padding:10px;
+  border:none;
+  border-radius:10px;
+  background:#ff5252;
+  color:#fff;
+  font-weight:bold;
+  cursor:pointer;
+}
+.empty{text-align:center;color:#aaa}
 
 /* FOOTER */
 footer{
@@ -156,11 +139,6 @@ footer{
   font-size:14px;
   color:#aaa;
   border-top:1px solid rgba(255,255,255,.08);
-}
-
-/* MOBILE */
-@media(max-width:480px){
-  header h1{font-size:26px}
 }
 </style>
 </head>
@@ -180,6 +158,7 @@ footer{
 
 <div class="grid">
 
+<!-- ALL DIAMONDS -->
 <div class="card"><h3>💎 50 Diamonds</h3><div class="price">Rs 65</div><button onclick="order('50 Diamonds',65)">Order</button></div>
 <div class="card"><h3>💎 115 Diamonds</h3><div class="price">Rs 100</div><button onclick="order('115 Diamonds',100)">Order</button></div>
 <div class="card"><h3>💎 240 Diamonds</h3><div class="price">Rs 190</div><button onclick="order('240 Diamonds',190)">Order</button></div>
@@ -206,6 +185,13 @@ footer{
 
 </div>
 
+<!-- ORDER HISTORY -->
+<section class="history">
+  <h3>🧾 Order History (This Device)</h3>
+  <div id="historyList"><p class="empty">No orders yet</p></div>
+  <button class="clear-history" onclick="clearHistory()">Clear History</button>
+</section>
+
 <div class="payment">
   <h3>Pay via eSewa / Khalti</h3>
   <img src="esewa.jpg.png">
@@ -218,24 +204,59 @@ footer{
 </footer>
 
 <script>
-function order(product, price){
-  const uid = document.getElementById("uid").value.trim();
-  if(!uid){
-    alert("Please enter your Free Fire UID first");
+const KEY="gamezone_orders";
+
+function getHistory(){
+  return JSON.parse(localStorage.getItem(KEY))||[];
+}
+
+function renderHistory(){
+  const list=document.getElementById("historyList");
+  const data=getHistory();
+  if(!data.length){
+    list.innerHTML='<p class="empty">No orders yet</p>';
     return;
   }
+  list.innerHTML=data.map(o=>`
+    <div class="history-item">
+      <div><b>${o.product}</b></div>
+      <div>UID: ${o.uid}</div>
+      <div class="price">Rs ${o.price}</div>
+      <div>${o.time}</div>
+    </div>
+  `).join("");
+}
 
-  const msg =
+function clearHistory(){
+  if(confirm("Clear order history?")){
+    localStorage.removeItem(KEY);
+    renderHistory();
+  }
+}
+
+function order(product,price){
+  const uid=document.getElementById("uid").value.trim();
+  if(!uid){alert("Enter UID first");return;}
+
+  const time=new Date().toLocaleString();
+  const data={uid,product,price,time};
+
+  const history=getHistory();
+  history.unshift(data);
+  localStorage.setItem(KEY,JSON.stringify(history));
+  renderHistory();
+
+  const msg=
 `Free Fire Top-Up Order
 UID: ${uid}
 Package: ${product}
-Amount: Rs ${price}`;
+Amount: Rs ${price}
+Time: ${time}`;
 
-  window.open(
-    "https://wa.me/9707394367?text=" + encodeURIComponent(msg),
-    "_blank"
-  );
+  window.open("https://wa.me/9707394367?text="+encodeURIComponent(msg),"_blank");
 }
+
+renderHistory();
 </script>
 
 </body>
