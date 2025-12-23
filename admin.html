@@ -69,8 +69,10 @@ input,textarea{width:100%;padding:8px;border-radius:8px;border:none;margin-botto
   <button onclick="clearNews()">Remove Popup</button>
 </div>
 
+
+
 <script>
-/* DATABASE */
+/* ================= DATABASE ================= */
 const DB={
  products:JSON.parse(localStorage.getItem("products"))||[
   {name:"50 Diamonds",price:65},
@@ -96,7 +98,8 @@ const DB={
   {name:"Weekly Membership",price:230},
   {name:"Monthly Membership",price:980}
  ],
- news:localStorage.getItem("news")||""
+ news:localStorage.getItem("news")||"",
+ admin:localStorage.getItem("adminLogged")==="true"
 };
 
 function saveDB(){
@@ -104,7 +107,7 @@ function saveDB(){
  localStorage.setItem("news",DB.news);
 }
 
-/* RENDER PRODUCTS */
+/* ================= RENDER ================= */
 function render(){
  const grid=document.getElementById("productGrid");
  grid.innerHTML="";
@@ -119,7 +122,7 @@ function render(){
 }
 render();
 
-/* POPUP */
+/* ================= POPUP ================= */
 if(DB.news){
  document.getElementById("popupText").innerText=DB.news;
  document.getElementById("newsPopup").classList.remove("hidden");
@@ -128,31 +131,74 @@ function closePopup(){
  document.getElementById("newsPopup").classList.add("hidden");
 }
 
-/* ADMIN */
-document.addEventListener("keydown",e=>{
- if(e.ctrlKey && e.key==="A")
-  document.getElementById("adminPanel").classList.toggle("hidden");
-});
+/* ================= ADMIN PANEL ================= */
+const panel=document.getElementById("adminPanel");
 
-function login(){
- if(adminUser.value==="admin" && adminPass.value==="naman@123"){
-  alert("Admin access granted");
- }else alert("Wrong login");
+function lockAdmin(){
+ panel.classList.add("hidden");
+ localStorage.setItem("adminLogged","false");
+ DB.admin=false;
 }
 
+function unlockAdmin(){
+ panel.classList.remove("hidden");
+ localStorage.setItem("adminLogged","true");
+ DB.admin=true;
+}
+
+// Ctrl + A opens login if locked
+document.addEventListener("keydown",e=>{
+ if(e.ctrlKey && e.key==="A"){
+  if(DB.admin){
+    panel.classList.toggle("hidden");
+  }else{
+    panel.classList.remove("hidden");
+    alert("🔐 Admin Login Required");
+  }
+ }
+});
+
+// Login
+function login(){
+ if(adminUser.value==="admin" && adminPass.value==="naman@123"){
+  unlockAdmin();
+  alert("✅ Admin Access Granted");
+ }else{
+  alert("❌ Wrong credentials");
+ }
+}
+
+// Logout
+function logout(){
+ if(confirm("Logout admin?")){
+  lockAdmin();
+ }
+}
+
+/* ================= ADMIN ACTIONS ================= */
 function saveProduct(){
+ if(!DB.admin) return alert("Admin only");
  DB.products.push({name:pName.value,price:pPrice.value});
  saveDB();render();
 }
 
 function saveNews(){
+ if(!DB.admin) return alert("Admin only");
  DB.news=newsText.value;
  saveDB();location.reload();
 }
+
 function clearNews(){
+ if(!DB.admin) return alert("Admin only");
  DB.news="";
  saveDB();location.reload();
 }
+
+// Auto unlock if already logged
+if(DB.admin){
+ panel.classList.remove("hidden");
+}
+
 </script>
 
 </body>
